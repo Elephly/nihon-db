@@ -1,0 +1,33 @@
+{
+  "name": "nihon-db",
+  "version": "0.1.0",
+  "description": "Database of Japanese vocabulary and kanji with English meanings and pronunciations.",
+  "main": "src/main.js",
+  "directories": {
+    "resources": "resources",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node test/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elephly/nihon-db.git"
+  },
+  "keywords": [
+    "japanese",
+    "kanji",
+    "nihon",
+    "vocabulary",
+    "education",
+    "database"
+  ],
+  "author": "nicholaschiasson@namnamnamnam.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Elephly/nihon-db/issues"
+  },
+  "homepage": "https://github.com/Elephly/nihon-db#readme",
+  "dependencies": {}
+}
