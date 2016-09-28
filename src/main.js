@@ -53,8 +53,15 @@ var viewCollectionsMenu = new menu.Menu("Choose Collection", collectionsMenu,
         menu.MenuView.requestString("Enter the correct Japanese spelling of the vocabulary word to add: ", function(spelling) {
           menu.MenuView.requestString("Enter the correct hiragana reading of the vocabulary word to add: ", function(reading) {
             menu.MenuView.requestString("Enter the English meaning of the vocabulary word to add: ", function(meaning) {
-              // TODO: Insert in alphabetical order based on hiragana spelling
-              日本ＤＢ.collections[index].vocabulary.push(dbtypes.createVocabularyWord(spelling, reading, meaning));
+              var insertionIndex = 0;
+              日本ＤＢ.collections[index].vocabulary.some(function(vocab, vocabIndex) {
+                insertionIndex = vocabIndex;
+                if (reading < vocab.reading) {
+                  return true;
+                }
+                return false;
+              });
+              日本ＤＢ.collections[index].vocabulary.splice(insertionIndex, 0, dbtypes.createVocabularyWord(spelling, reading, meaning));
               callback(日本ＤＢ);
             });
           });
