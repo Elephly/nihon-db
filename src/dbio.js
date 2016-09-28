@@ -10,13 +10,13 @@ module.exports = {
       }
       var 日本ＤＢ = (err ? {} : JSON.parse(data));
       if (!日本ＤＢ.collections || 日本ＤＢ.collections.length < 1) {
-        日本ＤＢ.collections = [dbtypes.createCollection("default")];
+        日本ＤＢ.collections = [dbtypes.createCollection("Default")];
       }
       callback(日本ＤＢ);
     });
   },
   saveDB: function(path, db, callback) {
-    fs.writeFile(path, JSON.stringify(db), function(err) {
+    fs.writeFile(path, JSON.stringify(db, null, 2), function(err) {
       if (err) {
         console.error("Error writing to file '" + path + "':" + err);
       }
