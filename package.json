@@ -29,5 +29,7 @@
     "url": "https://github.com/Elephly/nihon-db/issues"
   },
   "homepage": "https://github.com/Elephly/nihon-db#readme",
-  "dependencies": {}
+  "dependencies": {
+    "readline-sync": "^1.4.4"
+  }
 }

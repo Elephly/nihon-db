@@ -1,0 +1,56 @@
+{
+  "collections": [
+    {
+      "name": "Genki",
+      "kanji": [
+        {
+          "character": "一",
+          "reading": {
+            "onyomi": ["いち", "いっ"],
+            "kunyomi": ["ひと"]
+          },
+          "meaning": ["one"],
+          "vocabulary": [
+            {
+              "spelling": "一",
+              "reading": "いち",
+              "meaning": "one"
+            },
+            {
+              "spelling": "一時",
+              "reading": "いちじ",
+              "meaning": "one o'clock"
+            },
+            {
+              "spelling": "一年生",
+              "reading": "いちねんせい",
+              "meaning": "first-year student"
+            },
+            {
+              "spelling": "一分",
+              "reading": "いっぷん",
+              "meaning": "one minute"
+            },
+            {
+              "spelling": "一つ",
+              "reading": "ひとつ",
+              "meaning": "one"
+            }
+          ]
+        }
+      ],
+      "vocabulary": [
+        {
+          "spelling": "アイスクリーム",
+          "reading": "あいすくりいむ",
+          "meaning": "ice cream"
+        },
+        {
+          "spelling": "間",
+          "reading": "あいだ",
+          "meaning": "between"
+        }
+      ]
+    }
+  ]
+}
