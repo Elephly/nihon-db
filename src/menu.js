@@ -163,31 +163,3 @@ module.exports = {
   MenuProcedure: MenuProcedure,
   MenuView: MenuView
 };
-
-/*
-module.exports = class {
-  constructor(name = "<null>", optionDisplayName = "<null>", subMenus = [], selectionAction = null) {
-    this.name = name;
-    this.optionDisplayName = optionDisplayName;
-    this.selectionAction = selectionAction;
-    this.subMenus = subMenus;
-  }
-
-  selectionCallback(日本ＤＢ) {
-    assert.notEqual(日本ＤＢ, null);
-
-    if (this.selectionAction) this.selectionAction(日本ＤＢ);
-
-    console.log(this.name);
-    for (let i = 0; i < this.subMenus.length; i++) {
-      console.log("(" + (i + 1) + ")" + "\t" + this.options[i].optionDisplayName);
-    }
-    readline.question("Select option: ", function(option) {
-      if (option > 0 || option <= this.options.length) {
-        setTimeout(Number(option), 日本ＤＢ);
-      }
-      setTimeout(this.selectionCallback, 0, 日本ＤＢ);
-    });
-  }
-};
-*/
