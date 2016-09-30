@@ -19,11 +19,11 @@ module.exports = {
       vocabulary: vocabularyUsages
     };
   },
-  createVocabularyWord: function(fullSpelling, hiraganaReading, englishMeaning) {
+  createVocabularyWord: function(fullSpelling, hiraganaReading, englishMeanings) {
     return {
       spelling: fullSpelling,
       reading: hiraganaReading,
-      meaning: englishMeaning
+      meaning: englishMeanings
     };
   }
 };

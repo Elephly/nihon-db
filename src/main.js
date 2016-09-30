@@ -52,17 +52,23 @@ var viewCollectionsMenu = new menu.Menu("Choose Collection", collectionsMenu,
       var tempAddVocabularyMenu = new menu.MenuProcedure("Add Vocabulary", tempVocabularyMenu, function(日本ＤＢ, callback) {
         menu.MenuView.requestString("Enter the correct Japanese spelling of the vocabulary word to add: ", function(spelling) {
           menu.MenuView.requestString("Enter the correct hiragana reading of the vocabulary word to add: ", function(reading) {
-            menu.MenuView.requestString("Enter the English meaning of the vocabulary word to add: ", function(meaning) {
-              var insertionIndex = 0;
-              日本ＤＢ.collections[index].vocabulary.some(function(vocab, vocabIndex) {
-                insertionIndex = vocabIndex;
-                if (reading < vocab.reading) {
-                  return true;
-                }
-                return false;
-              });
-              日本ＤＢ.collections[index].vocabulary.splice(insertionIndex, 0, dbtypes.createVocabularyWord(spelling, reading, meaning));
-              callback(日本ＤＢ);
+            var insertionIndex = 0;
+            var meanings = [];
+            日本ＤＢ.collections[index].vocabulary.some(function(vocab, vocabIndex) {
+              insertionIndex = vocabIndex;
+              if (reading < vocab.reading) {
+                return true;
+              }
+              return false;
+            });
+            menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", function readVocabMeaning(meaning) {
+              if (meaning) {
+                meanings.push(meaning);
+                menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", readVocabMeaning);
+              } else {
+                日本ＤＢ.collections[index].vocabulary.splice(insertionIndex, 0, dbtypes.createVocabularyWord(spelling, reading, meanings));
+                callback(日本ＤＢ);
+              }
             });
           });
         });
