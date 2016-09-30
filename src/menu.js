@@ -137,7 +137,7 @@ class MenuView {
         context.requestNumber(message, min, max, callback);
       } else {
         var n = Number(answer);
-        if (n < min || n > max) {
+        if ((min !== null && n < min) || (max !== null && n > max)) {
           context.requestNumber(message, min, max, callback);
         } else {
           callback(n);

@@ -74,11 +74,6 @@
       ]
     },
     {
-      "name": "Test",
-      "kanji": [],
-      "vocabulary": []
-    },
-    {
       "name": "Shelly",
       "kanji": [],
       "vocabulary": []
@@ -95,6 +90,11 @@
     },
     {
       "name": "Zach",
+      "kanji": [],
+      "vocabulary": []
+    },
+    {
+      "name": "Test",
       "kanji": [],
       "vocabulary": []
     }

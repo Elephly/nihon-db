@@ -20,10 +20,58 @@ var viewCollectionsMenu = new menu.Menu("Choose Collection", collectionsMenu,
 
       var tempKanjiMenu = new menu.Menu("Kanji", tempCollectionMenu);
       var tempAddKanjiMenu = new menu.MenuProcedure("Add Kanji", tempKanjiMenu, function(日本ＤＢ, callback) {
-        menu.MenuView.requestString("Enter the kanji character to add: ", function(character) {
-          // TODO
-          日本ＤＢ.collections[index].kanji.push(dbtypes.createKanji(character, [], [], [], []));
-          callback(日本ＤＢ);
+        menu.MenuView.requestNumber("Enter a positive numeric identifier for the kanji character to add or enter '0' to push it to the back of the list: ", 0, null, function readKanjiIdentifier(identifier) {
+          var identifierIsGood = true;
+          if (identifier > 0) {
+            while (日本ＤＢ.collections[index].kanji.length < identifier) {
+              日本ＤＢ.collections[index].kanji.push(null);
+            }
+            if (日本ＤＢ.collections[index].kanji[identifier - 1] !== null) {
+              identifierIsGood = false;
+              console.warn("The identifier '" + identifier + "' is already taken by '" + 日本ＤＢ.collections[index].kanji[identifier - 1].character + "'. Please choose another.");
+              menu.MenuView.requestNumber("Enter a positive numeric identifier for the kanji character to add or enter '0' to push it to the back of the list: ", 0, null, readKanjiIdentifier);
+            }
+          }
+          if (identifierIsGood) {
+            menu.MenuView.requestString("Enter the kanji character to add: ", function readKanjiCharacter(character) {
+              if (!character) {
+                console.log("This field cannot be left blank. Please try again.");
+                menu.MenuView.requestString("Enter the kanji character to add: ", readKanjiCharacter);
+              } else {
+                var onyomiReadings = [];
+                menu.MenuView.requestString("Enter a hiragana onyomi reading for the kanji or press enter to continue: ", function readOnyomiReadings(onyomiReading) {
+                  if (onyomiReading) {
+                    onyomiReadings.push(onyomiReading);
+                    menu.MenuView.requestString("Enter a hiragana onyomi reading for the kanji or press enter to continue: ", readOnyomiReadings);
+                  } else {
+                    var kunyomiReadings = [];
+                    menu.MenuView.requestString("Enter a hiragana kunyomi reading for the kanji or press enter to continue: ", function readKunyomiReadings(kunyomiReading) {
+                      if (kunyomiReading) {
+                        kunyomiReadings.push(kunyomiReading);
+                        menu.MenuView.requestString("Enter a hiragana kunyomi reading for the kanji or press enter to continue: ", readKunyomiReadings);
+                      } else {
+                        var englishMeanings = [];
+                        menu.MenuView.requestString("Enter an english meaning for the kanji or press enter to continue: ", function readEnglishMeanings(englishMeaning) {
+                          if (englishMeaning) {
+                            englishMeanings.push(englishMeaning);
+                            menu.MenuView.requestString("Enter an english meaning for the kanji or press enter to continue: ", readEnglishMeanings);
+                          } else {
+                            // TODO
+                            if (identifier > 0) {
+                              日本ＤＢ.collections[index].kanji[identifier - 1] = dbtypes.createKanji(character, onyomiReadings, kunyomiReadings, englishMeanings, []);
+                            } else {
+                              日本ＤＢ.collections[index].kanji.push(dbtypes.createKanji(character, onyomiReadings, kunyomiReadings, englishMeanings, []));
+                            }
+                            callback(日本ＤＢ);
+                          }
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
         });
       });
       var tempRemoveKanjiMenu = new menu.MenuProcedure("Remove Kanji", tempKanjiMenu, function(日本ＤＢ, callback) {
