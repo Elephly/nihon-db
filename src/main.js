@@ -98,27 +98,50 @@ var viewCollectionsMenu = new menu.Menu("Choose Collection", collectionsMenu,
 
       var tempVocabularyMenu = new menu.Menu("Vocabulary", tempCollectionMenu);
       var tempAddVocabularyMenu = new menu.MenuProcedure("Add Vocabulary", tempVocabularyMenu, function(日本ＤＢ, callback) {
-        menu.MenuView.requestString("Enter the correct Japanese spelling of the vocabulary word to add: ", function(spelling) {
-          menu.MenuView.requestString("Enter the correct hiragana reading of the vocabulary word to add: ", function(reading) {
-            var insertionIndex = 0;
-            var meanings = [];
-            日本ＤＢ.collections[index].vocabulary.some(function(vocab, vocabIndex) {
-              insertionIndex = vocabIndex;
-              if (reading < vocab.reading) {
-                return true;
-              }
-              return false;
+        menu.MenuView.requestString("Enter the correct Japanese spelling of the vocabulary word to add: ", function readVocabSpelling(spelling) {
+          if (!spelling) {
+            console.log("This field cannot be left blank. Please try again.");
+            menu.MenuView.requestString("Enter the correct Japanese spelling of the vocabulary word to add: ", readVocabSpelling);
+          } else {
+            var isDuplicate = 日本ＤＢ.collections[index].vocabulary.some(function(vocab) {
+              return (spelling === vocab.spelling);
             });
-            menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", function readVocabMeaning(meaning) {
-              if (meaning) {
-                meanings.push(meaning);
-                menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", readVocabMeaning);
-              } else {
-                日本ＤＢ.collections[index].vocabulary.splice(insertionIndex, 0, dbtypes.createVocabularyWord(spelling, reading, meanings));
-                callback(日本ＤＢ);
-              }
-            });
-          });
+            if (isDuplicate) {
+              console.warn("The vocabulary word '" + spelling + "' already exists in the database.");
+              callback(日本ＤＢ);
+            } else {
+              menu.MenuView.requestString("Enter the correct hiragana reading of the vocabulary word to add: ", function readVocabReading(reading) {
+                if (!reading) {
+                  console.log("This field cannot be left blank. Please try again.");
+                  menu.MenuView.requestString("Enter the correct hiragana reading of the vocabulary word to add: ", readVocabReading);
+                } else {
+                  var insertionIndex = 0;
+                  var meanings = [];
+                  日本ＤＢ.collections[index].vocabulary.some(function(vocab, vocabIndex) {
+                    insertionIndex = vocabIndex;
+                    if (reading < vocab.reading) {
+                      return true;
+                    }
+                    return false;
+                  });
+                  menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", function readVocabMeaning(meaning) {
+                    if (meaning) {
+                      meanings.push(meaning);
+                      menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", readVocabMeaning);
+                    } else {
+                      if (meanings.length < 1) {
+                        console.log("This field cannot be left blank. Please try again.");
+                        menu.MenuView.requestString("Enter an English meaning of the vocabulary word to add or press enter to continue: ", readVocabMeaning);
+                      } else {
+                        日本ＤＢ.collections[index].vocabulary.splice(insertionIndex, 0, dbtypes.createVocabularyWord(spelling, reading, meanings));
+                        callback(日本ＤＢ);
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          }
         });
       });
       var tempRemoveVocabularyMenu = new menu.MenuProcedure("Remove Vocabulary", tempVocabularyMenu, function(日本ＤＢ, callback) {
